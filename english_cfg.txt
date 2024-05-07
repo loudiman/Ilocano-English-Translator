@@ -1,0 +1,9 @@
+Σ -> S
+S -> VPPP | NPVP
+NP -> NV | DetN
+VP -> VN
+N -> you | home | house
+V -> are | going | go
+PP -> PNP
+P -> to
+Det -> the
