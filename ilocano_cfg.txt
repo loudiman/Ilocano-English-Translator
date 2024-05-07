@@ -1,0 +1,7 @@
+Σ -> S
+S -> VPNP
+VP -> VNP
+V -> agawid
+NP -> ka | DetN
+Det -> jay
+N -> balayen
