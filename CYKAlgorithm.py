@@ -4,10 +4,10 @@ import nltk
 
 def create_cell(first, second):
     """
-    creates set of string from concatenation of each character in first
-    to each character in second
-    :param first: first set of characters
-    :param second: second set of characters
+    creates set of string from concatenation of each word in first
+    to each word in second
+    :param first: first set of word
+    :param second: second set of word
     :return: set of desired values
     """
     res = set()
@@ -23,7 +23,7 @@ def read_grammar(filename):
     """
     reads the rules of a context free grammar from a text file
     :param filename: name of the text file in current directory
-    :return: two lists. v_rules lead to variables and t_rules
+    :return: two lists. v_rules lead to variables/non-terminal and t_rules
     lead to terminals.
     """
     filename = os.path.join(os.curdir, filename)
@@ -33,22 +33,17 @@ def read_grammar(filename):
         t_rules = []
 
         for rule in rules:
-            left, right = rule.split(" -> ")  # Det -> a returns left = Det & right = a
+            left, right = rule.split(" -> ")
 
-            # for two or more results from a variable
-            """
-            * Tendency to result right = '' 
-            Solution: add single whitespace after the last word of a sentence
-            ex: agawed kax where x is white space
-            """
-            right = right[:-1].split(" | ")  #
+            # for two or more derivation from a variable/non-terminal
+            right = right[:-1].split(" | ")
             for ri in right:
 
                 # it is a terminal
                 if str.islower(ri):
                     t_rules.append([left, ri])
 
-                # it is a non-terminal
+                # it is a non-terminal/variable
                 else:
                     v_rules.append([left, ri])
         return v_rules, t_rules
@@ -84,7 +79,7 @@ def cyk_alg(varies, terms, inp):
     # table on which we run the algorithm
     table = [[set() for _ in range(length - i)] for i in range(length)]
 
-    # Deal with variables
+    # Deal with variables/non-terminals
     for i in range(length):
         for te in terms:
             if inp[i] == te[1]:
@@ -101,8 +96,7 @@ def cyk_alg(varies, terms, inp):
                         table[i][j].add(var0[var1.index(ro)])
 
     """
-    if the last element of table contains the highest level structure (i.e., not set()) 
-    of the input belongs to the grammar
+    if the last element of table contains the highest level structure (i.e., not set()) the input belongs to the grammar
     """
     return table
 
@@ -110,7 +104,7 @@ def cyk_alg(varies, terms, inp):
 def show_result(tab, inp):
     """
     this function prints the procedure of cyk.
-    in the end there is a message showing if the input
+    then there is a message showing if the input
     belongs to the grammar
     :param tab: table
     :param inp: input
@@ -135,6 +129,12 @@ def show_result(tab, inp):
 
 
 def ilocano_to_english_translator(x):
+    """
+    this function is a mapping of ilocano to english sentences. It prints the translation of english sentences given
+    ilocano sentence
+    :param x: input
+    :return : none
+    """
     ilocano_english_mapping = {
         'agawid ka': "you are going home",
         'agawid ka jay balayen': "go home to the house"
